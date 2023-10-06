@@ -1,8 +1,8 @@
 import pytest
 
 import spox.opset.ai.onnx.v17 as op
+from spox._exceptions import InferenceError
 from spox._graph import arguments
-from spox._standard import InferenceError
 from spox._type_system import Tensor
 
 
@@ -29,7 +29,7 @@ def test_one_hot_inference_checks_axis_in_range():
     x, y, z = arguments(
         x=Tensor(int, ("N", "M")), y=Tensor(int, ()), z=Tensor(float, (2,))
     )
-    with pytest.raises(InferenceError):
+    with pytest.raises(ValueError):
         assert op.one_hot(x, y, z, axis=-4)
     with pytest.raises(InferenceError):
         assert op.one_hot(x, y, z, axis=3)

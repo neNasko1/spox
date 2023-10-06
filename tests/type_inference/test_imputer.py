@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 
 import spox.opset.ai.onnx.ml.v3 as op_ml
+from spox._exceptions import InferenceError
 from spox._graph import arguments
-from spox._standard import InferenceError
 from spox._type_system import Tensor
 
 

@@ -15,7 +15,7 @@ from ._schemas import SCHEMAS
 from ._scope import Scope
 from ._shape import SimpleShape
 from ._type_system import Optional, Sequence, Tensor, Type
-from ._utils import from_array
+from ._utils import from_array, infer_shapes
 from ._value_prop import PropValueType
 
 if TYPE_CHECKING:
@@ -134,11 +134,11 @@ class StandardNode(Node):
 
         # Attempt to do shape inference - if an error is caught, we extend the traceback a bit
         try:
-            typed_model = onnx.shape_inference.infer_shapes(
+            typed_model = infer_shapes(
                 model, check_type=True, strict_mode=True, data_prop=True
             )
         except InferenceError as e:
-            raise type(e)(
+            raise InferenceError(
                 f"{str(e)} -- for {self.schema.name}: {self.signature}"
             ) from e
 

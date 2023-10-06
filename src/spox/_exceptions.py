@@ -1,7 +1,5 @@
-import onnx.shape_inference
-
-InferenceError = onnx.shape_inference.InferenceError
-ValidationError = onnx.checker.ValidationError
+class InferenceError(ValueError):
+    """An error originating from the type or shape inference."""
 
 
 class InferenceWarning(Warning):
@@ -27,4 +25,4 @@ class BuildError(Exception):
     pass
 
 
-__all__ = ["InferenceWarning", "InferenceError", "ValidationError"]
+__all__ = ["InferenceWarning", "InferenceError"]

@@ -1,8 +1,8 @@
 import pytest
 
 import spox.opset.ai.onnx.v17 as op
+from spox._exceptions import InferenceError
 from spox._graph import arguments
-from spox._standard import InferenceError
 from spox._type_system import Tensor
 
 

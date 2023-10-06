@@ -3,7 +3,9 @@ from typing import Optional
 import numpy as np
 import numpy.typing as npt
 import onnx
-from onnx import TensorProto
+from onnx import ModelProto, TensorProto
+
+from ._exceptions import InferenceError
 
 
 def tensor_type_to_dtype(ttype: int) -> np.dtype:
@@ -61,3 +63,24 @@ def from_array(arr: np.ndarray, name: Optional[str] = None) -> TensorProto:
         ).flatten(),
         raw=False,
     )
+
+
+def infer_shapes(
+    model: ModelProto, *, check_type: bool, strict_mode: bool, data_prop: bool
+):
+    """Infer the types and shapes of this model.
+
+    This function normalized the exception raised by onnx which appears to be platform dependent.
+
+    Raises
+    ------
+    InferenceError :
+        If the type or shape inference failed.
+    """
+    try:
+        return onnx.shape_inference.infer_shapes(
+            model, check_type=True, strict_mode=True, data_prop=True
+        )
+    except (onnx.shape_inference.InferenceError, RuntimeError) as e:
+        # onnx to raises a less descriptive `RuntimeError`s on MacOS out of needless cruelty
+        raise InferenceError(str(e)) from e

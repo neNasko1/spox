@@ -7,7 +7,14 @@
 Change log
 ==========
 
-0.9.1 (2023-xx-xx)
+0.10.0 (2023-xx-xx)
+------------------
+
+**Breaking change**
+
+- Failures during type/shape inference and model validation now use exceptions defined in ``spox`` rather than passing through exceptions from ``onnx``. This addresses an issues where the type of the exceptions raised from ``onnx`` depends on the host platform.
+
+0.9.1 (2023-10-05)
 ------------------
 
 **Bug fix**

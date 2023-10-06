@@ -18,6 +18,7 @@ from ._node import Node
 from ._schemas import max_opset_policy
 from ._type_system import Tensor, Type
 from ._utils import from_array
+from ._utils import infer_shapes as _infer_shapes
 from ._var import Var
 
 
@@ -418,7 +419,9 @@ class Graph:
         )
 
         if infer_shapes:
-            model = onnx.shape_inference.infer_shapes(model)
+            model = _infer_shapes(
+                model, check_type=False, strict_mode=False, data_prop=False
+            )
         if check_model:
             onnx.checker.check_model(model, full_check=check_model >= 2)
         return model
