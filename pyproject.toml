@@ -65,7 +65,12 @@ ignore_missing_imports = true
 no_implicit_optional = true
 check_untyped_defs = true
 warn_unused_ignores = true
+
+# settings that apply to `spox` but not `tests`
+[[tool.mypy.overrides]]
+module = "spox"
 disallow_untyped_defs = true
+
 
 [tool.pytest.ini_options]
 # This will be pytest's future default.

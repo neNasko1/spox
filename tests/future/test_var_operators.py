@@ -2,14 +2,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 import operator
+import warnings
 
 import numpy as np
 import pytest
 
 from spox import Tensor
-from spox._future import operator_overloading
 from spox._graph import arguments, results
 from spox.opset.ai.onnx import v17 as op
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore", DeprecationWarning)
+    from spox._future import operator_overloading
 
 
 def test_no_overloads_by_default():
